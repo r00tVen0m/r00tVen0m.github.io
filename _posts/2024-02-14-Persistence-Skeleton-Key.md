@@ -66,4 +66,4 @@ runas /user:cbank\abdessalam.louhidi "powershell.exe"
 3 - Run lsass.exe as a protected process, it forces an attacker to load a kernel mode drive
 
 
-`We have reached the end of the article.`
+`We have reached the  end of the article.`
