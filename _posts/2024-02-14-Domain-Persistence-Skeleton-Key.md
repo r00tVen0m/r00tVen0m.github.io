@@ -59,7 +59,7 @@ If the Skeleton Key technique has been successfully applied and a backdoor passw
 Here's an example command to run a PowerShell session with the newadmin user's privileges:
 
 ```powershell
-runas /user:cbank\abdessalam.louhidi "powershell.exe"
+runas /user:cbank\newadmin "powershell.exe"
 ```
 
 # Another Way if you need get ncat session 
