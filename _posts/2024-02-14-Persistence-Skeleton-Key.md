@@ -1,3 +1,12 @@
+---
+title: "Domain Persistence With Skeleton Key technique"
+date: 2024-02-14 00:00:00 +0000
+categories: 
+  - Persistence Domain 
+  - Active Directory
+  - RedTeam
+---
+
 
 In this article, I will explain the third technique for establishing persistence on the Domain Controller
 # Skeleton Key Attack
