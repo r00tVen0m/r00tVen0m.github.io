@@ -50,9 +50,9 @@ Yes, with the Skeleton Key technique implemented, you can access a PowerShell se
 
 [![Image Alt Text](/assets/img/posts/Persistence-Skeleton-Key/2024-02-14-5.png)](https://r00tven0m.github.io/)
 
-[![Image Alt Text](/assets/img/posts/Persistence-Skeleton-Key/2024-02-14-6.png)](https://r00tven0m.github.io/)
-
 [![Image Alt Text](/assets/img/posts/Persistence-Skeleton-Key/2024-02-14-7.png)](https://r00tven0m.github.io/)
+
+[![Image Alt Text](/assets/img/posts/Persistence-Skeleton-Key/2024-02-14-6.png)](https://r00tven0m.github.io/)
 
 If the Skeleton Key technique has been successfully applied and a backdoor password like `mimikatz` has been added to all user accounts in the Active Directory, including `newadmin`, then you can indeed use `runas` to execute a PowerShell session with the privileges of the `newadmin` user or any other user in the Active Directory.
 
