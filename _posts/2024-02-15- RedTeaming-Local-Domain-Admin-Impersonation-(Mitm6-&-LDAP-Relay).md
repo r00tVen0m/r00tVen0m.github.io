@@ -64,9 +64,11 @@ In summary, an SPN is a unique identifier for a service instance in a Windows do
 	2 - We must know the domain name
 	3 - Tools : netexec or crackmapexec,nmap , mitm6 , ntlmrelayx, geTst.py , psexec.py or wmiexec ,if you need dump hash you can use secretsdump
 
+    
 #### Disclaimer
 
- I will be attacking the environment consisting of Windows 10 and Windows Server 2016.
+I will be attacking the environment consisting of Windows 10 and Windows Server 2016.
+
 
 ## Attack DEMO
 
