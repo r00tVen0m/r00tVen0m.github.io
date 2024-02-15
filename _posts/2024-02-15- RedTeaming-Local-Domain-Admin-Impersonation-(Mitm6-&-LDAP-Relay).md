@@ -112,7 +112,7 @@ Once ntlmrelayx successfully authenticates to LDAPS using the relayed credential
 [![Image Alt Text](/assets/img/posts/Redteam/2024-02-15-6.png)](https://r00tven0m.github.io/)
 Adding new computer with username: JHEDTLNY$ and password: B!y#d,<eQG,5kze result: OK
 
-```
+
 we will use the Impacket script getST.py to request a service ticket to access impersonate WS02's privileges as the domain administrator (cbank\Administrator).
 
 ```bash
