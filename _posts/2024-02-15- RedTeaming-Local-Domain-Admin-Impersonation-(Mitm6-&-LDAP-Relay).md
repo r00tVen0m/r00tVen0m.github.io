@@ -44,6 +44,7 @@ Here are some key points about SPNs:
 In summary, an SPN is a unique identifier for a service instance in a Windows domain, used for Kerberos authentication. It helps clients locate and authenticate to services securely, making it a fundamental component of the Windows authentication infrastructure.
 
 ## WINDOWS IPV6 AND WPAD
+
 1. **Windows IPv6**:
     
     - IPv6 is the latest version of the Internet Protocol, designed to replace IPv4 due to the exhaustion of IPv4 addresses.
@@ -58,14 +59,19 @@ In summary, an SPN is a unique identifier for a service instance in a Windows do
 
 
 ## What is required to execute this attack
+
 	1 - First, we must be within the network
 	2 - We must know the domain name
 	3 - Tools : netexec or crackmapexec,nmap , mitm6 , ntlmrelayx, geTst.py , psexec.py or wmiexec ,if you need dump hash you can use secretsdump
+
 #### Disclaimer
+
  I will be attacking the environment consisting of Windows 10 and Windows Server 2016.
+
 ## Attack DEMO
 
 This scan is to determine the domain name and the alive machines.
+
 ```bash
 netexec smb 192.168.56.100-254
 ```
@@ -133,3 +139,5 @@ netexec smb 192.168.56.100 -u WS02$ -H aad3b435b51404eeaad3b435b51404ee:0fd304d2
 	 2- https://chryzsh.github.io/relaying-delegation/
 	 3- https://dirkjanm.io/krbrelayx-unconstrained-delegation-abuse-toolkit/
 	 4- https://www.youtube.com/watch?v=Zb-Fp62N2y8&t=2503s (arabic)
+
+We have reached the  end of the article.
