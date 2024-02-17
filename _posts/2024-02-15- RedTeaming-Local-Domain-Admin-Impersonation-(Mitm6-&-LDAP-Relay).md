@@ -5,7 +5,7 @@ categories:
   - Redteam 
   - Active Directory
 
-tags: Active Directory,RedTeam
+tags: RedTeam
 ---
 
 ## INTRODUCTION
