@@ -5,6 +5,8 @@ categories:
   - Persistence Domain 
   - Active Directory
   - RedTeam
+tags: ActiveDirectory
+
 ---
 
 
